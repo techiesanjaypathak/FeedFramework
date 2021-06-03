@@ -10,6 +10,7 @@
 		A7A90D292668750200F11414 /* FeedFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7A90D1F2668750100F11414 /* FeedFramework.framework */; };
 		A7A90D2E2668750200F11414 /* FeedFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A90D2D2668750200F11414 /* FeedFrameworkTests.swift */; };
 		A7A90D302668750200F11414 /* FeedFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A90D222668750100F11414 /* FeedFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A7A90D3C266876CD00F11414 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A90D3B266876CD00F11414 /* FeedItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		A7A90D282668750200F11414 /* FeedFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7A90D2D2668750200F11414 /* FeedFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFrameworkTests.swift; sourceTree = "<group>"; };
 		A7A90D2F2668750200F11414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7A90D3B266876CD00F11414 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				A7A90D222668750100F11414 /* FeedFramework.h */,
 				A7A90D232668750100F11414 /* Info.plist */,
+				A7A90D3B266876CD00F11414 /* FeedItem.swift */,
 			);
 			path = FeedFramework;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				TargetAttributes = {
 					A7A90D1E2668750100F11414 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
 					};
 					A7A90D272668750200F11414 = {
 						CreatedOnToolsVersion = 12.4;
@@ -194,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A90D3C266876CD00F11414 /* FeedItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +345,7 @@
 		A7A90D342668750200F11414 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -357,6 +363,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sanjaypathak.FeedFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -364,6 +371,7 @@
 		A7A90D352668750200F11414 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -388,6 +396,7 @@
 		A7A90D372668750200F11414 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = A3KP5SQ39M;
@@ -406,6 +415,7 @@
 		A7A90D382668750200F11414 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = A3KP5SQ39M;
