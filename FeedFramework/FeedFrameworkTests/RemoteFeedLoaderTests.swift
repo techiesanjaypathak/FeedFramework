@@ -65,32 +65,18 @@ class RemoteFeedLoaderTests: XCTestCase {
     
     func test_load_deliversItemsWith200HTTPResponse(){
         let (sut, client) = makeSUT()
-        let item1 = FeedItem(
-            id: UUID(),
+        let item1 = getJsonObjectAndModel(
+            with: UUID(),
             description: "Good Weather",
             location: "Bengaluru",
-            imageURL: URL(string: "http://some.com/image/url1.png")!
+            url: URL(string: "http://some.com/image/url1.png")!
         )
-        let item2 = FeedItem(
-            id: UUID(),
-            description: nil,
-            location: nil,
-            imageURL: URL(string: "http://some.com/image/url2.png")!
+        let item2 = getJsonObjectAndModel(
+            with: UUID(),
+            url: URL(string: "http://some.com/image/url2.png")!
         )
-        let item1JSON = [
-            "id":item1.id.uuidString,
-            "description":item1.description,
-            "location":item1.location,
-            "image":item1.imageURL.absoluteString
-        ]
-        let item2JSON = [
-            "id":item2.id.uuidString,
-            "image":item2.imageURL.absoluteString
-        ]
-        let itemsJSON = [
-            "items": [item1JSON,item2JSON]
-        ]
-        expect(sut, result: .success([item1, item2])) {
+        expect(sut, result: .success([item1.model, item2.model])) {
+            let itemsJSON = makeItemsJSON([item1.json,item2.json])
             let data = try! JSONSerialization.data(withJSONObject: itemsJSON, options: .withoutEscapingSlashes)
             client.complete(withStatusCode: 200, data: data, at: 0)
         }
@@ -109,6 +95,30 @@ class RemoteFeedLoaderTests: XCTestCase {
         sut.load { capturedResults.append($0) }
         action()
         XCTAssertEqual(capturedResults, [result], file: file, line: line)
+    }
+    
+    private func makeItemsJSON(_ jsonArray: [[String:Any]]) -> [String:Any] {
+        return [ "items": jsonArray ]
+    }
+    
+    private func getJsonObjectAndModel(with id: UUID, description: String? = nil, location: String? = nil, url: URL) -> (model: FeedItem, json: [String:Any]){
+        let itemModel = FeedItem(
+            id: id,
+            description: description,
+            location: location,
+            imageURL: url
+        )
+        let itemJSON = [
+            "id":itemModel.id.uuidString,
+            "description":itemModel.description,
+            "location":itemModel.location,
+            "image":itemModel.imageURL.absoluteString
+        ].reduce(into: [String:Any]()) { (accumelated, element) in
+            if let value = element.value {
+                accumelated[element.key] = value
+            }
+        }
+        return (itemModel,itemJSON)
     }
     
     private class HTTPClientSpy:HTTPClient{
