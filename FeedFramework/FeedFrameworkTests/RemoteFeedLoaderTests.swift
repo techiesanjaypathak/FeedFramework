@@ -63,6 +63,39 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
     }
     
+    func test_load_deliversItemsWith200HTTPResponse(){
+        let (sut, client) = makeSUT()
+        let item1 = FeedItem(
+            id: UUID(),
+            description: "Good Weather",
+            location: "Bengaluru",
+            imageURL: URL(string: "http://some.com/image/url1.png")!
+        )
+        let item2 = FeedItem(
+            id: UUID(),
+            description: nil,
+            location: nil,
+            imageURL: URL(string: "http://some.com/image/url2.png")!
+        )
+        let item1JSON = [
+            "id":item1.id.uuidString,
+            "description":item1.description,
+            "location":item1.location,
+            "image":item1.imageURL.absoluteString
+        ]
+        let item2JSON = [
+            "id":item2.id.uuidString,
+            "image":item2.imageURL.absoluteString
+        ]
+        let itemsJSON = [
+            "items": [item1JSON,item2JSON]
+        ]
+        expect(sut, result: .success([item1, item2])) {
+            let data = try! JSONSerialization.data(withJSONObject: itemsJSON, options: .withoutEscapingSlashes)
+            client.complete(withStatusCode: 200, data: data, at: 0)
+        }
+    }
+    
     // MARK:- Helpers
     
     private func makeSUT(url:URL = URL(string: "https://github.com/techiesanjaypathak/FeedFramework")!) -> (RemoteFeedLoader, HTTPClientSpy){
