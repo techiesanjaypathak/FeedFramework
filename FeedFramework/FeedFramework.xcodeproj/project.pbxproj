@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A705EFD22673FFB100933D52 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A90D3B266876CD00F11414 /* FeedItem.swift */; };
 		A7170A1C2670554C0027BF1B /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7170A1B2670554C0027BF1B /* RemoteFeedLoader.swift */; };
 		A7170A1F267055BF0027BF1B /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7170A1B2670554C0027BF1B /* RemoteFeedLoader.swift */; };
 		A7A90D292668750200F11414 /* FeedFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7A90D1F2668750100F11414 /* FeedFramework.framework */; };
@@ -234,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A705EFD22673FFB100933D52 /* FeedItem.swift in Sources */,
 				A7A90D4D26687A0300F11414 /* RemoteFeedLoaderTests.swift in Sources */,
 				A7170A1F267055BF0027BF1B /* RemoteFeedLoader.swift in Sources */,
 				A7A90D2E2668750200F11414 /* FeedFrameworkTests.swift in Sources */,

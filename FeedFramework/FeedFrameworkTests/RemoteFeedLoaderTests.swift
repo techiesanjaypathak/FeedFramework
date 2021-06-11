@@ -50,9 +50,18 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deleversErrorOn200ResponseWithInvalidJSON(){
         let (sut,client) = makeSUT()
         expect(sut,error: .invalidData, file: #filePath, line: #line) {
-            let invalidJSON = Data(bytes: "invalid json", count: 1)
+            let invalidJSON = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidJSON,  at: 0)
         }
+    }
+    
+    func test_load_deliversSuccessWithEmptyArray(){
+        let (sut, client) = makeSUT()
+        var capturedResults = [RemoteFeedLoader.Result]()
+        sut.load { capturedResults.append($0) }
+        let data = Data("{\"items\":[]}".utf8)
+        client.complete(withStatusCode: 200, data: data, at: 0)
+        XCTAssertEqual(capturedResults, [RemoteFeedLoader.Result.success([])])
     }
     
     // MARK:- Helpers
@@ -64,18 +73,18 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     private func expect(_ sut:RemoteFeedLoader, error:RemoteFeedLoader.Error, file: StaticString = #filePath, line: UInt = #line, where action: ()-> Void){
-        var capturedErrors = [RemoteFeedLoader.Error]()
-        sut.load { capturedErrors.append($0) }
+        var capturedResults = [RemoteFeedLoader.Result]()
+        sut.load { capturedResults.append($0) }
         action()
-        XCTAssertEqual(capturedErrors, [error], file: file, line: line)
+        XCTAssertEqual(capturedResults, [RemoteFeedLoader.Result.failure(error)], file: file, line: line)
     }
     
     private class HTTPClientSpy:HTTPClient{
-        var messages = [(url:URL, completion:(RemoteFeedResult)->Void)]()
+        var messages = [(url:URL, completion:(RFResult)->Void)]()
         var requestedURLs : [URL]{
             return messages.map { $0.url }
         }
-        func get(from url: URL, completion: @escaping (RemoteFeedResult) -> Void){
+        func get(from url: URL, completion: @escaping (RFResult) -> Void){
             messages.append((url,completion))
         }
         func complete(with error:NSError, atIndex index: Int = 0){
