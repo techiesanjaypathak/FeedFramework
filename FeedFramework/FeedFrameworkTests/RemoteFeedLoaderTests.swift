@@ -59,7 +59,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversSuccessWithEmptyArray(){
         let (sut, client) = makeSUT()
         expect(sut, result: .success([]), file: #filePath, line: #line) {
-            let data = makeItemsJSONData([])//Data("{\"items\":[]}".utf8)
+            let data = makeItemsJSONData([])
             client.complete(withStatusCode: 200, data: data, at: 0)
         }
     }
@@ -87,6 +87,8 @@ class RemoteFeedLoaderTests: XCTestCase {
     private func makeSUT(url:URL = URL(string: "https://github.com/techiesanjaypathak/FeedFramework")!) -> (RemoteFeedLoader, HTTPClientSpy){
         let client = HTTPClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
+        checkIfDeallocated(client)
+        checkIfDeallocated(sut)
         return (sut,client)
     }
     
@@ -95,6 +97,12 @@ class RemoteFeedLoaderTests: XCTestCase {
         sut.load { capturedResults.append($0) }
         action()
         XCTAssertEqual(capturedResults, [result], file: file, line: line)
+    }
+    
+    private func checkIfDeallocated(_ object:AnyObject, file: StaticString = #filePath, line: UInt = #line){
+        addTeardownBlock { [weak object] in
+            XCTAssertNil(object, "Should deallocate. Potential memory leak.", file: file, line: line)
+        }
     }
     
     private func makeItemsJSONData(_ jsonArray: [[String:Any]]) -> Data {
