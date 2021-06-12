@@ -59,7 +59,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversSuccessWithEmptyArray(){
         let (sut, client) = makeSUT()
         expect(sut, result: .success([]), file: #filePath, line: #line) {
-            let data = Data("{\"items\":[]}".utf8)
+            let data = makeItemsJSONData([])//Data("{\"items\":[]}".utf8)
             client.complete(withStatusCode: 200, data: data, at: 0)
         }
     }
