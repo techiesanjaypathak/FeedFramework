@@ -31,7 +31,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     
     func test_load_deliversErrorOnClientError(){
         let (sut,client) = makeSUT()
-        expect(sut, result: .failure(.connectivity), file: #filePath, line: #line) {
+        expect(sut, result: failure(.connectivity), file: #filePath, line: #line) {
             let clientError = NSError(domain: "Test", code: 0, userInfo: nil)
             client.complete(with:clientError)
         }
@@ -41,7 +41,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         let (sut,client) = makeSUT()
         let statusCodes = [199,201, 300, 400, 500]
         statusCodes.enumerated().forEach { (index,statusCode) in
-            expect(sut, result: .failure(.invalidData), file: #filePath, line: #line) {
+            expect(sut, result: failure(.invalidData), file: #filePath, line: #line) {
                 let jsonData = makeItemsJSONData([])
                 client.complete(withStatusCode: statusCode, data: jsonData, at: index)
             }
@@ -50,7 +50,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     
     func test_load_deleversErrorOn200ResponseWithInvalidJSON(){
         let (sut,client) = makeSUT()
-        expect(sut,result: .failure(.invalidData), file: #filePath, line: #line) {
+        expect(sut,result: failure(.invalidData), file: #filePath, line: #line) {
             let invalidJSON = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidJSON,  at: 0)
         }
@@ -109,7 +109,7 @@ class RemoteFeedLoaderTests: XCTestCase {
             switch(receivedResult, expectedResult){
             case let (.success(receivedItems),.success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
-            case let (.failure(receivedError), .failure(expectedError)):
+            case let (.failure(receivedError as RemoteFeedLoader.Error), .failure(expectedError as RemoteFeedLoader.Error)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
             default:
                 XCTFail("Expected result \(expectedResult) but reveived \(receivedResult)", file: file, line: line)
@@ -124,6 +124,10 @@ class RemoteFeedLoaderTests: XCTestCase {
         addTeardownBlock { [weak object] in
             XCTAssertNil(object, "Should deallocate. Potential memory leak.", file: file, line: line)
         }
+    }
+    
+    private func failure(_ error: RemoteFeedLoader.Error) -> RemoteFeedLoader.Result {
+        return .failure(error)
     }
     
     private func makeItemsJSONData(_ jsonArray: [[String:Any]]) -> Data {

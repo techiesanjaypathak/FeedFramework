@@ -17,7 +17,7 @@ public final class RemoteFeedLoader:FeedLoader {
         case invalidData
     }
     
-    public typealias Result = LoadFeedResult<Error>
+    public typealias Result = LoadFeedResult
     
 //    public enum Result: Equatable {
 //        case success([FeedItem])
