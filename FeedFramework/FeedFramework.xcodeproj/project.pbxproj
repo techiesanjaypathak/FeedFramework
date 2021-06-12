@@ -14,6 +14,7 @@
 		A799CD332674A59D00A099E3 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799CD312674A59D00A099E3 /* HTTPClient.swift */; };
 		A799CD372674A60400A099E3 /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799CD362674A60400A099E3 /* FeedItemMapper.swift */; };
 		A799CD382674A60400A099E3 /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799CD362674A60400A099E3 /* FeedItemMapper.swift */; };
+		A799CD3B2674E05900A099E3 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A90D3F2668777900F11414 /* FeedLoader.swift */; };
 		A7A90D292668750200F11414 /* FeedFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7A90D1F2668750100F11414 /* FeedFramework.framework */; };
 		A7A90D2E2668750200F11414 /* FeedFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A90D2D2668750200F11414 /* FeedFrameworkTests.swift */; };
 		A7A90D302668750200F11414 /* FeedFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A90D222668750100F11414 /* FeedFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -245,6 +246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A799CD3B2674E05900A099E3 /* FeedLoader.swift in Sources */,
 				A705EFD22673FFB100933D52 /* FeedItem.swift in Sources */,
 				A799CD332674A59D00A099E3 /* HTTPClient.swift in Sources */,
 				A7A90D4D26687A0300F11414 /* RemoteFeedLoaderTests.swift in Sources */,
