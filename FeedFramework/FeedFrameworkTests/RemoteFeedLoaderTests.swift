@@ -103,11 +103,21 @@ class RemoteFeedLoaderTests: XCTestCase {
         return (sut,client)
     }
     
-    private func expect(_ sut:RemoteFeedLoader, result:RemoteFeedLoader.Result, file: StaticString = #filePath, line: UInt = #line, where action: ()-> Void){
-        var capturedResults = [RemoteFeedLoader.Result]()
-        sut.load { capturedResults.append($0) }
+    private func expect(_ sut:RemoteFeedLoader, result expectedResult:RemoteFeedLoader.Result, file: StaticString = #filePath, line: UInt = #line, where action: ()-> Void){
+        let exp = expectation(description: "Wait for load description")
+        sut.load { receivedResult in
+            switch(receivedResult, expectedResult){
+            case let (.success(receivedItems),.success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            default:
+                XCTFail("Expected result \(expectedResult) but reveived \(receivedResult)", file: file, line: line)
+            }
+            exp.fulfill()
+        }
         action()
-        XCTAssertEqual(capturedResults, [result], file: file, line: line)
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func checkIfDeallocated(_ object:AnyObject, file: StaticString = #filePath, line: UInt = #line){
